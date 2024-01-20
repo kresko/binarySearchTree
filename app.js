@@ -46,7 +46,89 @@ class Tree {
             return node;
         }
 
-        //dovrsiti logiku za brisanje nodeova
+        if(node.data > value) {
+            node.left = this.delete(node.left, value);
+
+            return node;
+        } else if(node.data < value) {
+            node.right = this.delete(node.right, value);
+
+            return node;
+        }
+        
+        if(node.left === null) {
+            let temp = node.right;
+
+            delete node.data;
+            return temp;
+        } else if(node.right === null) {
+            let temp = node.left;
+
+            delete node.data;
+            return temp;
+        } else {
+            let succParent = node;
+            let succ = node.right;
+
+            while(succ.left !== null) {
+                succParent = succ;
+                succ = succ.left;
+            }
+
+            if(succParent !== node) {
+                succParent.left = succ.right;
+            } else {
+                succParent.right = succ.right;
+            }
+
+            node.data = succ.data;
+
+            delete succ.data;
+            return node;
+        }
+    }
+
+    find(node, value) {
+        if(node === null) {
+            return null;
+        }
+
+        if(node.data > value) {
+            let targetedNode = this.find(node.left, value);
+
+            return targetedNode;
+        } else if(node.data < value) {
+            let targetedNode = this.find(node.right, value);
+
+            return targetedNode;
+        } else {
+            return node;
+        }
+    }
+
+    levelOrder(node) {
+        let queue = [];
+
+        function lot(node, l) {
+            if(!node) {
+                return;
+            }
+
+            if(queue[l]) {
+                queue[l].push(node.data);
+            } else {
+                queue[l] = [node.data];
+                console.log(`This tree has ${l} levels.`);
+            }
+
+            lot(node.left, l+1);
+            lot(node.right, l+1);
+        }
+
+        lot(node, 0);
+
+        return queue;
+
     }
 
     prettyPrint(node, prefix = "", isLeft = true) {
@@ -89,11 +171,13 @@ const bst = new Tree(modifiedArray);
 
 let tree = bst.buildTree(modifiedArray);
 let insertedValue = bst.insert(tree, 11);
+insertedValue = bst.insert(insertedValue, 15);
+insertedValue = bst.insert(insertedValue, 50);
+insertedValue = bst.delete(insertedValue, 3);
+console.log(bst.find(insertedValue, 14));
 
-bst.insert(insertedValue, 15);
-let result = bst.insert(insertedValue, 50);
-
-bst.prettyPrint(result);
+console.log(bst.levelOrder(tree));
+bst.prettyPrint(insertedValue);
 
 
 
