@@ -128,7 +128,54 @@ class Tree {
         lot(node, 0);
 
         return queue;
+    }
 
+    preOrder(node) {
+        if(node === null) {
+            return;
+        }
+
+        console.log(`Current node: ${node.data}`);
+        
+        this.preOrder(node.left);
+        this.preOrder(node.right);
+    }
+
+    inOrder(node) {
+        if(node === null) {
+            return null;
+        }
+
+        this.inOrder(node.left);
+        console.log(`Current node: ${node.data}`);
+        this.inOrder(node.right);
+    }
+
+    postOrder(node) {
+        if(node === null) {
+            return;
+        }
+
+        this.inOrder(node.left);
+        this.inOrder(node.right);
+        console.log(`Current node: ${node.data}`);
+    }
+
+    height(node) {
+        if(node === null) {
+            return null;
+        }
+
+        let targetedNode = this.find(node);
+        let levelCounter = 0;
+
+        function calculatingEdges(targetedNode, levelCounter) {
+            if(targetedNode === null) {
+                return;
+            }
+
+            //dovrsi!!!!
+        }
     }
 
     prettyPrint(node, prefix = "", isLeft = true) {
@@ -176,7 +223,10 @@ insertedValue = bst.insert(insertedValue, 50);
 insertedValue = bst.delete(insertedValue, 3);
 console.log(bst.find(insertedValue, 14));
 
-console.log(bst.levelOrder(tree));
+//console.log(bst.levelOrder(tree));
+//console.log(bst.preOrder(tree));
+//console.log(bst.inOrder(tree));
+//console.log(bst.postOrder(tree));
 bst.prettyPrint(insertedValue);
 
 
