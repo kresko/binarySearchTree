@@ -166,16 +166,42 @@ class Tree {
             return null;
         }
 
-        let targetedNode = this.find(node);
-        let levelCounter = 0;
+        let leftHeight = this.height(node.left);
+        let rightHeight = this.height(node.right);
 
-        function calculatingEdges(targetedNode, levelCounter) {
-            if(targetedNode === null) {
-                return;
-            }
-
-            //dovrsi!!!!
+        if(leftHeight > rightHeight) {
+            return leftHeight + 1;
+        } else {
+            return rightHeight + 1;
         }
+    }
+
+    depth(targetedNode, node, depth = 0) {
+        if(node === null) {
+            return;
+        }
+
+        if(targetedNode === null) {
+            return;
+        }
+
+        if(targetedNode === node) {
+            return `Depth: ${depth}`;
+        }
+    
+        if(node.data > targetedNode.data) {
+            return this.depth(targetedNode, node.left, depth += 1);
+        } else {
+            return this.depth(targetedNode, node.right, depth += 1);
+        }
+    }
+
+    isBalanced(node) {
+        if(node === null) {
+            return;
+        }
+
+        
     }
 
     prettyPrint(node, prefix = "", isLeft = true) {
@@ -221,12 +247,15 @@ let insertedValue = bst.insert(tree, 11);
 insertedValue = bst.insert(insertedValue, 15);
 insertedValue = bst.insert(insertedValue, 50);
 insertedValue = bst.delete(insertedValue, 3);
-console.log(bst.find(insertedValue, 14));
+let wantedNode = bst.find(insertedValue, 14);
 
 //console.log(bst.levelOrder(tree));
 //console.log(bst.preOrder(tree));
 //console.log(bst.inOrder(tree));
 //console.log(bst.postOrder(tree));
+//console.log('Height of this Binary search tree is: ' + bst.height(wantedNode));
+//console.log(bst.depth(wantedNode, tree));
+console.log(bst.isBalanced(tree));
 bst.prettyPrint(insertedValue);
 
 
